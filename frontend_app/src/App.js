@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Projects from "./pages/Projects";
 import Auth from "./pages/Auth";
 import { AuthProvider } from "./context/AuthContext";
+import { ProjectProvider } from "./context/ProjectContext";
 
 // PUBLIC_INTERFACE
 function App() {
@@ -18,19 +19,21 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <div className="flex min-h-screen flex-col bg-gray-50">
-          <Header />
-          <div className="flex flex-1">
-            <Sidebar />
-            <Content>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/projects" element={<Projects />} />
-                <Route path="/auth" element={<Auth />} />
-              </Routes>
-            </Content>
+        <ProjectProvider>
+          <div className="flex min-h-screen flex-col bg-gray-50">
+            <Header />
+            <div className="flex flex-1">
+              <Sidebar />
+              <Content>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/projects" element={<Projects />} />
+                  <Route path="/auth" element={<Auth />} />
+                </Routes>
+              </Content>
+            </div>
           </div>
-        </div>
+        </ProjectProvider>
       </AuthProvider>
     </BrowserRouter>
   );

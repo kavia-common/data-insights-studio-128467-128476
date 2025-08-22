@@ -1,24 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
+import { useProjects } from "../context/ProjectContext";
+import ProjectList from "../components/projects/ProjectList";
+import ProjectCreateModal from "../components/projects/ProjectCreateModal";
 
 /**
  * PUBLIC_INTERFACE
- * Projects page - placeholder list for future project management UI.
+ * Projects page - provides simple in-memory create/list/archive and switching.
  */
 export default function Projects() {
-  const sampleProjects = ["Marketing KPIs", "Quarterly Sales", "Customer Churn Analysis"];
+  const { projects, activeProjectId, createProject, setActiveProject } = useProjects();
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const onCreate = (name) => {
+    createProject(name);
+    setModalOpen(false);
+  };
+
+  const onOpen = (id) => setActiveProject(id);
+
   return (
     <div className="space-y-5">
-      <h1 className="text-2xl font-semibold text-gray-900">Projects</h1>
-      <ul className="divide-y divide-gray-100 rounded-xl border border-gray-200 bg-white shadow-sm">
-        {sampleProjects.map((p) => (
-          <li
-            key={p}
-            className="p-4 text-gray-800 transition hover:bg-gray-50"
-          >
-            {p}
-          </li>
-        ))}
-      </ul>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-semibold text-gray-900">Projects</h1>
+        <button
+          type="button"
+          onClick={() => setModalOpen(true)}
+          className="inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600"
+        >
+          + New Project
+        </button>
+      </div>
+
+      <ProjectList projects={projects} activeProjectId={activeProjectId} onOpen={onOpen} />
+
+      <ProjectCreateModal open={modalOpen} onClose={() => setModalOpen(false)} onCreate={onCreate} />
     </div>
   );
 }
