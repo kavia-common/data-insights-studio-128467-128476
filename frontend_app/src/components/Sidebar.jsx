@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 /**
  * PUBLIC_INTERFACE
@@ -7,9 +8,13 @@ import { NavLink } from "react-router-dom";
  * Hidden on small screens by default; shows on md+.
  */
 export default function Sidebar() {
+  // Hooks must be called unconditionally
+  const { user } = useAuth();
+
   const links = [
     { to: "/", label: "Home", end: true },
     { to: "/projects", label: "Projects" },
+    { to: "/auth", label: user ? "Account" : "Login / Signup" },
   ];
 
   return (
@@ -33,6 +38,12 @@ export default function Sidebar() {
             </li>
           ))}
         </ul>
+
+        {!user ? (
+          <div className="mt-6 rounded-md border border-dashed border-gray-300 p-3 text-xs text-gray-600">
+            Log in to create and manage projects.
+          </div>
+        ) : null}
       </div>
     </aside>
   );

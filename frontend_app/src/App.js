@@ -6,6 +6,8 @@ import Sidebar from "./components/Sidebar";
 import Content from "./components/Content";
 import Home from "./pages/Home";
 import Projects from "./pages/Projects";
+import Auth from "./pages/Auth";
+import { AuthProvider } from "./context/AuthContext";
 
 // PUBLIC_INTERFACE
 function App() {
@@ -15,18 +17,21 @@ function App() {
    */
   return (
     <BrowserRouter>
-      <div className="flex min-h-screen flex-col">
-        <Header />
-        <div className="flex flex-1">
-          <Sidebar />
-          <Content>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/projects" element={<Projects />} />
-            </Routes>
-          </Content>
+      <AuthProvider>
+        <div className="flex min-h-screen flex-col">
+          <Header />
+          <div className="flex flex-1">
+            <Sidebar />
+            <Content>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/auth" element={<Auth />} />
+              </Routes>
+            </Content>
+          </div>
         </div>
-      </div>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
